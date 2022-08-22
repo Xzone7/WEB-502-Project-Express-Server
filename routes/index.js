@@ -3,7 +3,11 @@ const ensureLoggedIn = require("../middleware/ensureLoggedIn");
 const passport = require("passport");
 const UserDetails = require("../schema/UserDetail");
 const Cart = require("../schema/Cart");
-const { calculateOrderSummary, getRandomCartItem, updateLineItems } = require("../utils/utils");
+const {
+  calculateOrderSummary,
+  getRandomCartItem,
+  updateLineItems
+} = require("../utils/utils");
 
 const router = express.Router();
 
@@ -21,8 +25,8 @@ router.post("/login", (req, res, next) => {
       return res.status(400).json({
         status: "Bad Request",
         payload: {
-          isLoggedIn: false,
-        },
+          isLoggedIn: false
+        }
       });
     }
     req.logIn(user, (err) => {
@@ -33,8 +37,8 @@ router.post("/login", (req, res, next) => {
         status: "Success",
         payload: {
           isLoggedIn: true,
-          username: req.user.username,
-        },
+          username: req.user.username
+        }
       });
     });
   })(req, res, next);
@@ -48,16 +52,16 @@ router.get("/cart", ensureLoggedIn(), (req, res) => {
         payload: {
           cartId: data.cartId,
           lineItems: data.lineItems,
-          orderSummary: calculateOrderSummary(data.lineItems),
-        },
+          orderSummary: calculateOrderSummary(data.lineItems)
+        }
       });
     })
     .catch((err) => {
       res.status(500).json({
         status: "Internal Error",
         payload: {
-          errorMessage: err,
-        },
+          errorMessage: err
+        }
       });
     });
   // new Cart({
@@ -77,30 +81,91 @@ router.get("/cart", ensureLoggedIn(), (req, res) => {
 router.get("/addLineItem", ensureLoggedIn(), (req, res) => {
   const randomLineItem = getRandomCartItem();
   Cart.findOne({ cartId: req.user._id })
+    .lean()
     .then((data) => {
       const lineItems = updateLineItems(data.lineItems, randomLineItem);
-      Cart.findOneAndUpdate({ cartId: req.user._id }, { lineItems }, {new: true}, (err, data) => {
-        if (err) {
-          return Promise.reject(err)
+      Cart.findOneAndUpdate(
+        { cartId: req.user._id },
+        { lineItems },
+        { new: true },
+        (err, data) => {
+          if (err) {
+            return Promise.reject(err);
+          }
+          res.status(200).json({
+            status: "Success",
+            payload: {
+              cartId: data.cartId,
+              lineItems: data.lineItems,
+              orderSummary: calculateOrderSummary(data.lineItems)
+            }
+          });
         }
-        res.status(200).json({
-          status: "Success",
-          payload: {
-            cartId: data.cartId,
-            lineItems: data.lineItems,
-            orderSummary: calculateOrderSummary(data.lineItems),
-          },
-        });
-      });
+      );
     })
     .catch((err) => {
       res.status(500).json({
         status: "Internal Error",
         payload: {
-          errorMessage: err,
-        },
+          errorMessage: err
+        }
       });
     });
+});
+
+router.post("/updateLineItem", ensureLoggedIn(), (req, res) => {
+  const itemNumber = req.body.itemNumber;
+  const quantity = req.body.quantity;
+  Cart.findOneAndUpdate(
+    { cartId: req.user._id, "lineItems.itemNumber": itemNumber },
+    { $set: { "lineItems.$.quantity": quantity } },
+    { new: true },
+    (err, data) => {
+      if (err) {
+        return res.status(500).json({
+          status: "Internal Error",
+          payload: {
+            errorMessage: err
+          }
+        });
+      }
+      res.status(200).json({
+        status: "Success",
+        payload: {
+          cartId: data.cartId,
+          lineItems: data.lineItems,
+          orderSummary: calculateOrderSummary(data.lineItems)
+        }
+      });
+    }
+  );
+});
+
+router.post("/deleteLineItem", ensureLoggedIn(), (req, res) => {
+  const itemNumber = req.body.itemNumber;
+  Cart.findOneAndUpdate(
+    { cartId: req.user._id },
+    { $pull: { lineItems: { itemNumber } } },
+    { new: true },
+    (err, data) => {
+      if (err) {
+        return res.status(500).json({
+          status: "Internal Error",
+          payload: {
+            errorMessage: err
+          }
+        });
+      }
+      res.status(200).json({
+        status: "Success",
+        payload: {
+          cartId: data.cartId,
+          lineItems: data.lineItems,
+          orderSummary: calculateOrderSummary(data.lineItems)
+        }
+      });
+    }
+  );
 });
 
 router.get("/", ensureLoggedIn(), (req, res) => {});
@@ -112,8 +177,8 @@ router.get("/logout", (req, res) => {
     res.status(200).json({
       status: "Success",
       payload: {
-        isLoggedIn: false,
-      },
+        isLoggedIn: false
+      }
     });
   });
 });

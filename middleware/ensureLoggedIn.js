@@ -1,5 +1,5 @@
 module.exports = function ensureLoggedIn(statusCode = 401) {
-  return function(req, res, next) {
+  return function (req, res, next) {
     if (!req.isAuthenticated || !req.isAuthenticated()) {
       return res.status(statusCode).json({
         status: "Unauthorized",
@@ -9,5 +9,5 @@ module.exports = function ensureLoggedIn(statusCode = 401) {
       });
     }
     next();
-  }
-}
+  };
+};

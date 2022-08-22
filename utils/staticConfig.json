@@ -1,4 +1,5 @@
-[{
+[
+  {
     "imageUrl": "https://scene7.samsclub.com/is/image/samsclub/0007874228838_A?wid=200&hei=200",
     "productName": "Member's Mark Ultra Soup/Salad Paper Bowls (20 oz., 150 ct.)",
     "itemNumber": "980089707",
@@ -52,7 +53,7 @@
     "productName": "DualSense™ wireless controller",
     "itemNumber": "980300454",
     "quantity": 1,
-    "price": 69.00
+    "price": 69.0
   },
   {
     "imageUrl": "https://scene7.samsclub.com/is/image/samsclub/0081310002545_A?wid=200&hei=200",
@@ -66,5 +67,6 @@
     "productName": "MLB The Show 21: Jackie Robinson Deluxe Edition - PlayStation 4",
     "itemNumber": "980345512",
     "quantity": 1,
-    "price": 99.00
-  }]
+    "price": 99.0
+  }
+]

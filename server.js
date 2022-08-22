@@ -12,8 +12,8 @@ const expressSession = require("express-session")({
 });
 const corsOptions = {
   credentials: true,
-  origin: ['http://localhost:3000']
-}
+  origin: ["http://localhost:3000"]
+};
 const app = express();
 
 /* Middleware */
@@ -27,7 +27,7 @@ app.use(passport.session());
 /* DB connection */
 mongoose.connect("mongodb://localhost:27017/cxo", {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
+  useUnifiedTopology: true
 });
 
 /* ROUTES */

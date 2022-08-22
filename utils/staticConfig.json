@@ -5,5 +5,68 @@
     "itemNumber": "980089707",
     "quantity": 1,
     "price": 12.92
+  },
+  {
+    "imageUrl": "https://scene7.samsclub.com/is/image/samsclub/0002840069718_A?wid=200&hei=200",
+    "productName": "Frito-Lay Classic Mix Variety Pack (50 pk.)",
+    "itemNumber": "990004981",
+    "quantity": 1,
+    "price": 18.48
+  },
+  {
+    "imageUrl": "https://scene7.samsclub.com/is/image/samsclub/0076211118289_A?wid=200&hei=200",
+    "productName": "Starbucks Pike Place K-Cups (72 ct.)",
+    "itemNumber": "901164",
+    "quantity": 1,
+    "price": 41.98
+  },
+  {
+    "imageUrl": "https://scene7.samsclub.com/is/image/samsclub/0004900005848_A?wid=200&hei=200",
+    "productName": "Sprite (12 oz., 35 pk.)",
+    "itemNumber": "536383",
+    "quantity": 1,
+    "price": 15.84
+  },
+  {
+    "imageUrl": "https://scene7.samsclub.com/is/image/samsclub/0007910051029_A?wid=200&hei=200",
+    "productName": "Milk-Bone Dog Biscuits, Large (15 lbs.)",
+    "itemNumber": "980044441",
+    "quantity": 1,
+    "price": 17.98
+  },
+  {
+    "imageUrl": "https://scene7.samsclub.com/is/image/samsclub/0004900005846_A?wid=200&hei=200",
+    "productName": "Coca-Cola (12 oz. cans, 35 pk.)",
+    "itemNumber": "535999",
+    "quantity": 1,
+    "price": 15.84
+  },
+  {
+    "imageUrl": "https://scene7.samsclub.com/is/image/samsclub/0007874204475_A?wid=200&hei=200",
+    "productName": "Member's Mark White Plastic Forks (600 ct.)",
+    "itemNumber": "195020",
+    "quantity": 1,
+    "price": 13.48
+  },
+  {
+    "imageUrl": "https://scene7.samsclub.com/is/image/samsclub/0071171954108_A?wid=200&hei=200",
+    "productName": "DualSense™ wireless controller",
+    "itemNumber": "980300454",
+    "quantity": 1,
+    "price": 69.0
+  },
+  {
+    "imageUrl": "https://scene7.samsclub.com/is/image/samsclub/0081310002545_A?wid=200&hei=200",
+    "productName": "Nintendo Switch Neon with Wired Headset, Nano Wireless Controller, and Folio Case",
+    "itemNumber": "980361985",
+    "quantity": 1,
+    "price": "359.98"
+  },
+  {
+    "imageUrl": "https://scene7.samsclub.com/is/image/samsclub/0071171954646_A?wid=200&hei=200",
+    "productName": "MLB The Show 21: Jackie Robinson Deluxe Edition - PlayStation 4",
+    "itemNumber": "980345512",
+    "quantity": 1,
+    "price": 99.0
   }
 ]

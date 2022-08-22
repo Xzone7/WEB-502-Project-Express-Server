@@ -44,6 +44,46 @@ router.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 
+router.post("/register", (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+
+  UserDetails.register({ username, active: false }, password)
+    .then((data) => {
+      // create cart
+      return new Cart({
+        cartId: data._id,
+        lineItems: []
+      }).save();
+    })
+    .then(() => {
+      res.status(200).json({
+        status: "Success",
+        payload: {
+          isLoggedIn: false
+        }
+      });
+    })
+    .catch((err) => {
+      if (err.name === "UserExistsError") {
+        return res.status(400).json({
+          status: "Bad Request",
+          payload: {
+            isLoggedIn: false,
+            errorMessage: err.message
+          }
+        });
+      }
+      res.status(500).json({
+        status: "Internal Error",
+        payload: {
+          isLoggedIn: false,
+          errorMessage: "Something went wrong, please try again later."
+        }
+      });
+    });
+});
+
 router.get("/cart", ensureLoggedIn(), (req, res) => {
   Cart.findOne({ cartId: req.user._id })
     .then((data) => {
@@ -64,18 +104,6 @@ router.get("/cart", ensureLoggedIn(), (req, res) => {
         }
       });
     });
-  // new Cart({
-  //   cartId: req.user._id,
-  //   lineItems: [{
-  //     imageUrl: "https://scene7.samsclub.com/is/image/samsclub/0007874228838_A?wid=200&hei=200",
-  //     productName: "Member's Mark Ultra Soup/Salad Paper Bowls (20 oz., 150 ct.)",
-  //     itemNumber: "980089707",
-  //     quantity: 1,
-  //     price: 12.92
-  //   }]
-  // }).save((err) => {
-  //   console.log(err);
-  // })
 });
 
 router.get("/addLineItem", ensureLoggedIn(), (req, res) => {
@@ -168,9 +196,31 @@ router.post("/deleteLineItem", ensureLoggedIn(), (req, res) => {
   );
 });
 
-router.get("/", ensureLoggedIn(), (req, res) => {});
-
-router.get("/private", ensureLoggedIn(), (req, res) => {});
+router.post("/checkout", ensureLoggedIn(), (req, res) => {
+  Cart.findOneAndUpdate(
+    { cartId: req.user._id },
+    { $set: { lineItems: [] } },
+    { new: true },
+    (err, data) => {
+      if (err) {
+        return res.status(500).json({
+          status: "Internal Error",
+          payload: {
+            errorMessage: err
+          }
+        });
+      }
+      res.status(200).json({
+        status: "Success",
+        payload: {
+          cartId: data.cartId,
+          lineItems: data.lineItems,
+          orderSummary: calculateOrderSummary(data.lineItems)
+        }
+      });
+    }
+  );
+});
 
 router.get("/logout", (req, res) => {
   req.logout(() => {
